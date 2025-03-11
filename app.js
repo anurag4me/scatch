@@ -4,6 +4,7 @@ const connectDB = require("./config/db");
 const userRouter = require("./routes/user.routes");
 const productRouter = require("./routes/product.routes");
 const ownerRouter = require("./routes/owner.routes");
+const cookieParser = require("cookie-parser");
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -15,6 +16,7 @@ connectDB(process.env.DB_CONNECT)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
+app.use(cookieParser())
 
 app.get("/", (req, res) => {
   return res.send("<h1>Hello World!</h1>");
