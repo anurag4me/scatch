@@ -12,6 +12,10 @@ connectDB(process.env.DB_CONNECT)
   .then(() => console.log("MongoDB connected!"))
   .catch((err) => console.log("Mongo error", err));
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.set("view engine", "ejs");
+
 app.get("/", (req, res) => {
   return res.send("<h1>Hello World!</h1>");
 });

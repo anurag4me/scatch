@@ -38,10 +38,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "default.png",
   },
-  isAdmin: {
-    type: Boolean,
-    default: false,
-  },
 }, { timestamps: true }); // Adds createdAt and updatedAt fields
 
 module.exports = mongoose.model("User", userSchema);
