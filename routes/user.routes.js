@@ -1,5 +1,6 @@
 const express = require("express");
 const UserModel = require("../models/user.models");
+const authUser = require("../auth/user.auth")
 
 const router = express.Router();
 
@@ -10,7 +11,11 @@ router.get("/", (req, res) => {
 router.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
   const user = await UserModel.create({ name, email, password });
-  return res.status(201).json({ user });
+
+  const token = user.generateAuthToken();
+  res.cookie("token", token)
+
+  return res.status(201).json({ token, user });
 });
 
 router.post("/login", async (req, res) => {
@@ -26,6 +31,9 @@ router.post("/login", async (req, res) => {
   if (!isMatch) {
     return res.status(401).json({ message: "Invalid email or password" });
   }
+
+  const token = user.generateAuthToken();
+  res.cookie("token", token)
 
   return res.status(200).redirect("/");
 });
