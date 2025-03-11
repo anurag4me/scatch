@@ -6,7 +6,7 @@ const authUser = async (req, res, next) => {
 
   if (!token) {
     req.flash("error", "Login is required!");
-    return res.status(401).redirect("/user");
+    return res.status(401).redirect("/");
   }
 
   try {
@@ -16,7 +16,7 @@ const authUser = async (req, res, next) => {
     next();
   } catch (error) {
     req.flash("error", "Something went wrong!");
-    res.status(404).redirect("/user");
+    res.status(404).redirect("/");
   }
 };
 

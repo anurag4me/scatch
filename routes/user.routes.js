@@ -1,42 +1,20 @@
 const express = require("express");
-const UserModel = require("../models/user.models");
-const authUser = require("../auth/user.auth");
+const {
+  registerUser,
+  loginUser,
+  logoutUser,
+} = require("../controllers/user.controllers");
 
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  const error = req.flash("error");  
-  return res.render("index", { error });
+    return res.send("hey, welcome to user route");
 });
 
-router.post("/register", async (req, res) => {
-  const { name, email, password } = req.body;
-  const user = await UserModel.create({ name, email, password });
+router.post("/register", registerUser);
 
-  const token = user.generateAuthToken();
-  res.cookie("token", token);
+router.post("/login", loginUser);
 
-  return res.status(201).json({ token, user });
-});
-
-router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-
-  const user = await UserModel.findOne({ email });
-
-  if (!user) {
-    return res.status(401).json({ message: "Invalid email or password" });
-  }
-
-  const isMatch = await user.comparePassword(password);
-  if (!isMatch) {
-    return res.status(401).json({ message: "Invalid email or password" });
-  }
-
-  const token = user.generateAuthToken();
-  res.cookie("token", token);
-
-  return res.status(200).redirect("/");
-});
+router.get("/logout", logoutUser);
 
 module.exports = router;

@@ -7,6 +7,7 @@ const ownerRouter = require("./routes/owner.routes");
 const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
 const flash = require("connect-flash");
+const authUser = require("./auth/user.auth");
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -32,7 +33,11 @@ app.use(flash());
 
 // Routes
 app.get("/", (req, res) => {
-  return res.send("<h1>Hello World!</h1>");
+  const error = req.flash("error");
+  return res.render("index", { error });
+});
+app.get("/shop", authUser, (req, res) => {
+  return res.render("shop");
 });
 app.use("/user", userRouter);
 app.use("/product", productRouter);
