@@ -5,17 +5,19 @@ const authUser = async (req, res, next) => {
   const token = req.cookies.token;
 
   if (!token) {
-    return res.status(401).json({ message: "Login is required!" });
+    req.flash("error", "Login is required!");
+    return res.status(401).redirect("/user");
   }
 
-  const data = jwt.verify(token, process.env.JWT_SECRET);
-  const user = await UserModel.findById(data._id);
-
-  if (!user) {
-    return res.status(404).json({ message: "User not found!" });
+  try {
+    const data = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await UserModel.findById(data._id).select("-password");
+    req.user = user;
+    next();
+  } catch (error) {
+    req.flash("error", "Something went wrong!");
+    res.status(404).redirect("/user");
   }
-  req.user = user;
-  next();
 };
 
 module.exports = authUser;

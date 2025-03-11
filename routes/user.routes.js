@@ -1,11 +1,12 @@
 const express = require("express");
 const UserModel = require("../models/user.models");
-const authUser = require("../auth/user.auth")
+const authUser = require("../auth/user.auth");
 
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  return res.render("index");
+  const error = req.flash("error");  
+  return res.render("index", { error });
 });
 
 router.post("/register", async (req, res) => {
@@ -13,7 +14,7 @@ router.post("/register", async (req, res) => {
   const user = await UserModel.create({ name, email, password });
 
   const token = user.generateAuthToken();
-  res.cookie("token", token)
+  res.cookie("token", token);
 
   return res.status(201).json({ token, user });
 });
@@ -33,7 +34,7 @@ router.post("/login", async (req, res) => {
   }
 
   const token = user.generateAuthToken();
-  res.cookie("token", token)
+  res.cookie("token", token);
 
   return res.status(200).redirect("/");
 });
