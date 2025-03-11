@@ -1,0 +1,17 @@
+{
+  "name": "scatch",
+  "version": "1.0.0",
+  "description": "Scatch is a premium bag shop website",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}
