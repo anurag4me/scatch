@@ -1,13 +1,13 @@
 require("dotenv").config();
 const express = require("express");
 const connectDB = require("./config/db");
+const indexRouter = require("./routes/index.routes");
 const userRouter = require("./routes/user.routes");
 const productRouter = require("./routes/product.routes");
 const ownerRouter = require("./routes/owner.routes");
 const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
 const flash = require("connect-flash");
-const authUser = require("./auth/user.auth");
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -32,13 +32,7 @@ app.use(
 app.use(flash());
 
 // Routes
-app.get("/", (req, res) => {
-  const error = req.flash("error");
-  return res.render("index", { error });
-});
-app.get("/shop", authUser, (req, res) => {
-  return res.render("shop");
-});
+app.use("/", indexRouter);
 app.use("/user", userRouter);
 app.use("/product", productRouter);
 app.use("/owner", ownerRouter);
