@@ -38,9 +38,10 @@ const userSchema = new mongoose.Schema(
       },
     },
     picture: {
-      type: String,
-      default: "default.png",
+      type: Buffer,
+      default: 'default.png',
     },
+    address: String,
   },
   { timestamps: true }
 ); // Adds createdAt and updatedAt fields
@@ -50,15 +51,5 @@ userSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
-
-userSchema.methods.comparePassword = async function (password) {
-  return await bcrypt.compare(password, this.password);
-};
-
-userSchema.methods.generateAuthToken = function () {
-  return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {
-    expiresIn: "24h",
-  });
-};
 
 module.exports = mongoose.model("User", userSchema);
