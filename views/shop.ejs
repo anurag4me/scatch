@@ -1,14 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scatch Shop Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
 </head>
+
 <body>
-    <div class="w-full h-screen font flex items-center justify-evenly">
-        Welcome to shop page!
+    <div class="w-full h-screen p-0 m-0">
+        <nav class="flex items-center justify-between pt-6 px-12">
+            <div>
+                <h3 class="text-3xl p-4">Shop.</h3>
+            </div>
+            <div class="w-3/4 flex gap-4 items-center justify-end">
+                <a class="p-4" href="#">Home</a>
+                <a class="p-4" href="/shop">Products</a>
+                <a class="p-4" href="#">Cart</a>
+                <a class="p-4" href="#">My account</a>
+            </div>
+        </nav>
+        <hr>
+        <main class="flex">
+            <div class="sidebar w-1/6 h-[600px] p-8 flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between ">
+                        <p>sort by:</p>
+                        <select name="sort" id="sort" class="bg-transparent outline-none">
+                            <option value="Popular">Popular</option>
+                            <option value="Trending">Trending</option>
+                            <option value="Genz">Genz</option>
+                        </select>
+                    </div>
+                    <div class="mt-10">
+                        <p class="text-gray-600 cursor-pointer">New Collection</p>
+                        <p class="cursor-pointer">All Products</p>
+                        <p class="text-gray-600 cursor-pointer">Discounted Products</p>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-gray-600">Filter by:</p>
+                    <p class="">Availability</p>
+                    <p class="text-gray-600">Discount</p>
+                </div>
+            </div>
+            <div class="product-section p-8 w-5/6 flex flex-wrap gap-10">
+                <% if (products.length===0) { %>
+                    <div class="absolute top-[50%] left-[40%]">
+                        <h3 class="text-3xl font-light">There is no product available :(</h3> 
+                    </div>
+                <% } else { %>
+                    <% products.forEach(product => { %>
+                        <div class="product w-52">
+                            <div class="w-full h-48 bg-[<%= product.bgColor %>]">
+                                <img src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" alt="" class="w-full h-full object-cover"></div>
+                            <div class="p-4 flex items-center justify-between gap-2 text-[<%= product.textColor %>] bg-[<%= product.panelColor %>]">
+                                <div>
+                                    <h3><%= product.name %></h3>
+                                    <h4>₹ <%= product.price %></h4>
+                                </div>
+                                <div>
+                                    <a class="flex justify-center items-center rounded-full h-7 w-7 bg-[<%= product.textColor %>] text-[<%= product.panelColor %>]" href="">
+                                        <i class="ri-add-line"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } %>
+            </div>
+        </main>
     </div>
 </body>
+
 </html>

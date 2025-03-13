@@ -12,9 +12,8 @@ const productSchema = new mongoose.Schema({
     min: 0, // Ensures price cannot be negative
   },
   image: {
-    type: String,
+    type: Buffer,
     required: true,
-    trim: true, // Ensures no extra spaces in the URL
   },
   discount: {
     type: Number,
@@ -22,18 +21,9 @@ const productSchema = new mongoose.Schema({
     min: 0,
     max: 100, // Ensures discount percentage is valid
   },
-  bgColor: {
-    type: String,
-    default: "#FFFFFF", // Default white background
-  },
-  panelColor: {
-    type: String,
-    default: "#F0F0F0", // Light gray default panel color
-  },
-  textColor: {
-    type: String,
-    default: "#000000", // Default black text color
-  },
+  bgColor: String,
+  panelColor: String,
+  textColor: String,
 }, { timestamps: true }); // Adds createdAt and updatedAt fields
 
 module.exports = mongoose.model("Product", productSchema);
